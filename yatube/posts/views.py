@@ -61,11 +61,11 @@ def post_detail(request, post_id):
     }
     return render(request, 'posts/post_detail.html', context)
 
+
 @login_required
 def post_create(request):
     form = PostForm(request.POST or None,
-        files=request.FILES or None
-    )
+                    files=request.FILES or None)
     if form.is_valid():
         post = form.save(commit=False)
         post.author = request.user
@@ -75,6 +75,7 @@ def post_create(request):
         'form': form,
     }
     return render(request, 'posts/create_post.html', context)
+
 
 @login_required
 def post_edit(request, post_id):
