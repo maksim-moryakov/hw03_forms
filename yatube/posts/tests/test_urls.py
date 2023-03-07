@@ -1,10 +1,15 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 
+from ..models import Group, Post
 
-class StaticURLTests(TestCase):
-    def setUp(self):
-        self.guest_client = Client()
-    
-    def test_homepage(self):
-        response = self.guest_client.get('/')
-        self.assertEqual(response.status_code, 200)
+User = get_user_model()
+
+
+class PostURLTests(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        """Созданим запись в БД для проверки доступности
+        адреса user/test-slug/"""
+
