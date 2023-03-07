@@ -8,7 +8,12 @@ SECRET_KEY = 'kffx^o(l0o%(6$e59a!h(k2ch5mlyygk4zy7bize*8p!6q6(e&'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '[::1]',
+    'testserver',
+]
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
