@@ -5,19 +5,28 @@ User = get_user_model()
 
 
 class Post(models.Model):
-    text = models.TextField('Содержание поста')
-    pub_date = models.DateTimeField('Дата', auto_now_add=True)
+    text = models.TextField(
+        verbose_name='Содержание поста',
+        help_text='Введите текст поста'
+    )
+    pub_date = models.DateTimeField(
+        verbose_name='Дата публикации',
+        auto_now_add=True
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts'
+        related_name='posts',
+        verbose_name='Автор'
     )
     group = models.ForeignKey(
         'Group',
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='posts'
+        related_name='posts',
+        verbose_name='Группа',
+        help_text='Группа, к которой будет относиться пост'
     )
 
     class Meta:
