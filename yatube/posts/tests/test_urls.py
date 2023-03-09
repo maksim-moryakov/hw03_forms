@@ -27,10 +27,7 @@ class PostURLTests(TestCase):
         )
 
     def setUp(self):
-        # Создаем неавторизованого клиента
         self.guest_client = Client()
-        # Создаем авторизованого клиента
-        self.user = User.objects.create(username='NoName')
         self.authorized_client = Client()
         self.authorized_client.force_login(self.author)
 
@@ -58,4 +55,25 @@ class PostURLTests(TestCase):
             with self.subTest(status=status):
                 response = self.authorized_client.get(address)
                 self.assertEqual(response.status_code, status)
- 
+
+    def test_url_to_template(self):
+        """Проверка соответсвия url и template"""
+        urls_template = {
+            '/': 'posts/index.html',
+            '/group/test_slug/': 'posts/group_list.html',
+            '/profile/TestAuthor/': 'posts/profile.html',
+            f'/posts/{self.post.pk}/': 'posts/post_detail.html',
+            f'/posts/{self.post.pk}/edit/': 'posts/create_post.html',
+            '/create/': 'posts/create_post.html',
+        }
+        for address, template in urls_template.items():
+            with self.subTest(address=address):
+                response = self.authorized_client.get(address)
+                self.assertTemplateUsed(response, template)
+
+    def test_post_edit_no_author(self):
+        """Проверка редактирования поста не автором"""
+        response = self.guest_client.get(
+            f"/posts/{self.post.pk}/edit/")
+        self.assertRedirects(response, (
+            f'/auth/login/?next=/posts/{self.post.id}/edit/'))
