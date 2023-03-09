@@ -10,7 +10,7 @@ class PostModelTest(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        cls.user = User.objects.create_user(username='auth')
+        cls.user = User.objects.create(username='auth')
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='Тестовый слаг',
@@ -46,8 +46,7 @@ class PostModelTest(TestCase):
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
                 self.assertEqual(
-                    post._meta.get_field(field).verbose_name, expected_value
-                )
+                    post._meta.get_field(field).verbose_name, expected_value)
 
 
     def test_help_text(self):
@@ -60,8 +59,7 @@ class PostModelTest(TestCase):
         for field, expected_value in field_help_texts.items():
             with self.subTest(field=field):
                 self.assertEqual(
-                    post._meta.get_field(field).help_text, expected_value
-                )
+                    post._meta.get_field(field).help_text, expected_value)
 
     def test_models_have_correct_object_name_post(self):
         post = PostModelTest.post
