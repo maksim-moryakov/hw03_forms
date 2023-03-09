@@ -62,3 +62,14 @@ class PostModelTest(TestCase):
                 self.assertEqual(
                     post._meta.get_field(field).help_text, expected_value
                 )
+
+    def test_models_have_correct_object_name_post(self):
+        post = PostModelTest.post
+        group = PostModelTest.group
+        field_string = {
+            post.text[:15]: str(post),
+            group.title: str(group)
+        }
+        for expected, value in field_string.items():
+            with self.subTest(value=value):
+                self.assertEqual(expected, value)
