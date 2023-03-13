@@ -55,13 +55,12 @@ class PostsPagesTests(TestCase):
         )
 
     def test_edit_post_form(self):
-        '''Проверка формы редактирования поста'''
+        """Проверка формы редактирования поста"""
         post_count = Post.objects.count()
         form_data = {
             'text': 'Test edited_post, please ignore',
             'group': self.group.pk,
         }
-
         response = self.authorized_client.post(
             reverse('posts:post_edit', kwargs={'post_id': self.post.pk}),
             data=form_data,
@@ -70,5 +69,4 @@ class PostsPagesTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(Post.objects.count(), post_count)
         self.assertTrue(Post.objects.filter(
-            text=form_data['text']).exists()
-        )
+            text=form_data['text']).exists())
